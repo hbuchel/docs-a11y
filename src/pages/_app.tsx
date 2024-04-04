@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { trackPageVisit } from '../utils/track';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { useCanonicalUrl } from '@/utils/useCanonicalUrl';
+import { accessibilityTest } from '@/utils/accessibilityTest';
 
 function MyApp({ Component, pageProps }) {
   const {
@@ -223,5 +224,7 @@ function MyApp({ Component, pageProps }) {
     </>
   );
 }
+
+accessibilityTest(MyApp);
 
 export default MyApp;
