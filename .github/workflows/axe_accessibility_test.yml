@@ -2,6 +2,7 @@ name: axe
 on:
   pull_request:
     branches: [main]
+    types: [opened, synchronize]
 env:
   BUILD_DIR: 'client/www/next-build'
 jobs:
