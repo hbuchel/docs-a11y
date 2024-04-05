@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        value: ${{needs.getChangedPages.outputs.matrix}}
+        value: ${{ fromJson(needs.getChangedPages.outputs.matrix)}}
     steps:
       - name: Checkout branch
         uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2 https://github.com/actions/checkout/commit/9bb56186c3b09b4f86b1c65136769dd318469633
@@ -52,5 +52,5 @@ jobs:
           npm install -g  @axe-core/cli
       - name: Run axe
         run: |
-          axe http://localhost:3000/${{ matrix.value.path }} --exit
+          axe http://localhost:3000/${{ matrix.value }} --exit
 
