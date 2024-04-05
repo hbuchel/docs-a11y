@@ -32,7 +32,7 @@ module.exports = {
           if(isMDXPage) {
             const path = filename.replace('src/pages', '').replace('/index.mdx', '');
             platforms.forEach((platform) => {
-              pages.push(path.replace('[platform]', platform));
+              pages.push({ path: path.replace('[platform]', platform) });
             })
           }
         })
