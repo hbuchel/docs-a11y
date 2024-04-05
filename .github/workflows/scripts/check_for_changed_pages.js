@@ -1,5 +1,5 @@
 module.exports = {
-  getChangedFiles: ({ github, context, core }) => {
+  getChangedPages: ({ github, context, core }) => {
     const {
       issue: { number: issue_number },
       repo: { owner, repo }
@@ -10,14 +10,36 @@ module.exports = {
       .paginate(
         'GET /repos/{owner}/{repo}/pulls/{pull_number}/files',
         { owner, repo, pull_number: issue_number },
-        (response) => response.data.filter((file) => file.status === 'modified')
+        (response) => response.data.filter((file) => (file.status === 'modified' || file.status === 'added'))
       )
       .then((files) => {
-       
-        console.log('Changed files: ', files);
+        const pages = [];
+        const platforms = [
+          'android',
+          'angular',
+          'flutter',
+          'javascript',
+          'nextjs',
+          'react',
+          'react-native',
+          'swift',
+          'vue',
+        ]
+        files.forEach(({filename}) => {
+          // src/pages/[platform]/how-amplify-works/index.mdx
+    
+          const isMDXPage = filename.startsWith('src/pages') && filename.endsWith('index.mdx');
+          if(isMDXPage) {
+            const path = filename.replace('src/pages', '').replace('/index.mdx', '');
+            platforms.forEach((platform) => {
+              pages.push(path.replace('[platform]', platform));
+            })
+          }
+        })
+        console.log('Changed pages: ', pages);
 
         // Return the new files count to be used in the github workflow
-        return files.length;
+        return pages;
       });
   },
 }
