@@ -10,7 +10,7 @@ module.exports = {
       .paginate(
         'GET /repos/{owner}/{repo}/pulls/{pull_number}/files',
         { owner, repo, pull_number: issue_number },
-        (response) => response.data.filter((file) => file.status === 'changed')
+        (response) => response.data.filter((file) => file.status === 'modified')
       )
       .then((files) => {
        
