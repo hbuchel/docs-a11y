@@ -22,7 +22,7 @@ jobs:
             const { getChangedPages } = require('./.github/workflows/scripts/check_for_changed_pages.js');
             return getChangedPages({github, context, core});
     outputs: 
-      matrix: ${{ steps.pages-to-a11y-test.outputs }}
+      matrix: ${{ steps.pages-to-a11y-test.outputs.result }}
   accessibility:
     name: Runs axe accessibility testing on changed pages
     needs: [getChangedPages]
