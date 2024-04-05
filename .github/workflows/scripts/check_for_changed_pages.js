@@ -39,7 +39,7 @@ module.exports = {
         console.log('Changed pages: ', pages);
 
         // Return the new files count to be used in the github workflow
-        return pages;
+        return { pages: pages };
       });
   },
 }
