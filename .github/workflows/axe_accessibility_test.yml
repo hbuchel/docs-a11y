@@ -52,5 +52,5 @@ jobs:
           npm install -g  @axe-core/cli
       - name: Run axe
         run: |
-          axe http://localhost:3000/${{ matrix.value }} --exit
+          axe http://localhost:3000/${{ matrix.value.path }} --exit
 
