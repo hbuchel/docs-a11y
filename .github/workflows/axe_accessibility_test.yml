@@ -25,6 +25,14 @@ jobs:
           script: |
             const { getChangedPages } = require('./.github/workflows/scripts/check_for_changed_pages.js');
             return getChangedPages({github, context, core});
+      - name: Run axe on changed/new MDX pages
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1 https://github.com/actions/github-script/commit/60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        id: axe-results
+        with:
+          script: |
+            const { runAxe } = require('./.github/workflows/scripts/run_axe.js');
+            const pages = ${{ fromJSON(steps.pages-to-a11y-test.outputs.result) }}
+            return await runAxe(pages)
       - name: Install dependencies
         run: yarn
       - name: Build
@@ -38,12 +46,5 @@ jobs:
       - name: Install axe cli
         run: |
           npm install -g  @axe-core/cli
-      - name: Run axe on changed/new MDX pages
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1 https://github.com/actions/github-script/commit/60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        id: axe-results
-        with:
-          script: |
-            const { runAxe } = require('./.github/workflows/scripts/run_axe.js');
-            const pages = ${{ steps.pages-to-a11y-test.outputs.result }}
-            return await runAxe(pages)
+      
 
