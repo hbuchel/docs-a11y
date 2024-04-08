@@ -6,13 +6,17 @@ on:
 env:
   BUILD_DIR: 'client/www/next-build'
 jobs:
-  getChangedPages:
-    name: Gets changed mdx pages
+  accessibility:
+    name: Runs axe accessibility testing on changed pages
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - name: Checkout branch
         uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2 https://github.com/actions/checkout/commit/9bb56186c3b09b4f86b1c65136769dd318469633
-      - name: Get pages to run accessibility tests on
+      - name: Setup Node.js 20
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # 4.0.2 https://github.com/actions/setup-node/releases/tag/v4.0.2
+        with:
+          node-version: 20.x
+      - name: Get changed/new pages to run accessibility tests on
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1 https://github.com/actions/github-script/commit/60a0d83039c74a4aee543508d2ffcb1c3799cdea
         id: pages-to-a11y-test
         with:
@@ -21,22 +25,6 @@ jobs:
           script: |
             const { getChangedPages } = require('./.github/workflows/scripts/check_for_changed_pages.js');
             return getChangedPages({github, context, core});
-    outputs: 
-      matrix: ${{ steps.pages-to-a11y-test.outputs.result }}
-  accessibility:
-    name: Runs axe accessibility testing on changed pages
-    needs: [getChangedPages]
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        value: ${{ fromJson(needs.getChangedPages.outputs.matrix.pages)}}
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2 https://github.com/actions/checkout/commit/9bb56186c3b09b4f86b1c65136769dd318469633
-      - name: Setup Node.js 20
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # 4.0.2 https://github.com/actions/setup-node/releases/tag/v4.0.2
-        with:
-          node-version: 20.x
       - name: Install dependencies
         run: yarn
       - name: Build
@@ -50,7 +38,12 @@ jobs:
       - name: Install axe cli
         run: |
           npm install -g  @axe-core/cli
-      - name: Run axe
-        run: |
-          axe http://localhost:3000/${{ matrix.value }} --exit
+      - name: Run axe on changed/new MDX pages
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1 https://github.com/actions/github-script/commit/60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        id: axe-results
+        with:
+          script: |
+            const { runAxe } = require('./.github/workflows/scripts/run_axe.js');
+            const pages = ${{ steps.pages-to-a11y-test.outputs.result }}
+            return await runAxe(pages)
 

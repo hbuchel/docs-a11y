@@ -36,10 +36,10 @@ module.exports = {
             })
           }
         })
-        console.log('Changed pages: ', pages);
+        console.log('Changed pages: ', JSON.stringify(pages));
 
         // Return the new files count to be used in the github workflow
-        return { pages: pages };
+        return pages;
       });
   },
 }
