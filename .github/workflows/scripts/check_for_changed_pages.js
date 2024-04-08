@@ -30,10 +30,10 @@ module.exports = {
     
           const isMDXPage = filename.startsWith('src/pages') && filename.endsWith('index.mdx');
           if(isMDXPage) {
-            
+
             const path = filename.replace('src/pages', '').replace('/index.mdx', '');
             platforms.forEach((platform) => {
-              pages.push(path.replace('[platform]', platform));
+              pages.push({ path: path.replace('[platform]', platform)});
             })
           }
         })
