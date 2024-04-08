@@ -21,7 +21,6 @@ jobs:
         id: pages-to-a11y-test
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          result-encoding: string
           script: |
             const { getChangedPages } = require('./.github/workflows/scripts/check_for_changed_pages.js');
             return getChangedPages({github, context, core});
