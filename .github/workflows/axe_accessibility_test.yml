@@ -30,7 +30,7 @@ jobs:
         with:
           script: |
             const { runAxe } = require('./.github/workflows/scripts/run_axe.js');
-            const pages = ${{ fromJSON(steps.pages-to-a11y-test.outputs.result) }}
+            const pages = ${{ steps.pages-to-a11y-test.outputs.result }}
             return await runAxe(pages)
       - name: Install dependencies
         run: yarn
