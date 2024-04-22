@@ -11,7 +11,8 @@ module.exports = {
     fs.readFileSync('public/sitemap.xml', function(err, data) {
       parser.parseString(data, function(err, result) {
         const urls = result.urlset.url;
-        urls.forEach(url => {
+        console.log('urls: ', urls);
+        urls.forEach((url) => {
           console.log(url.loc[0]);
           urlList.push(url.loc[0]);
         });
