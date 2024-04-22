@@ -22,7 +22,7 @@ module.exports = {
     pages.forEach((page) => {
       console.log('page: ', page);
       if(urlList.includes(`https://docs.amplify.aws${page}`)) {
-        exec(`axe http://localhost:3000${ page } --exit`, (error, stdout, stderr) => {
+        exec(`axe http://localhost:3000${ page } --exit | jq ".[0].violations"`, (error, stdout, stderr) => {
         console.log("STDOUT:", stdout, ", STDERR:", stderr);
       });
       }
