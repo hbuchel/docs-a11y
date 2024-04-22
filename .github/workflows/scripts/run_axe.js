@@ -11,23 +11,20 @@ module.exports = {
     
     parser.parseString(siteMap, function(err, result) {
       if(err) {
-        console.log(err);
+        console.log(`Error parsing sitemap: ${err}`);
+      } else {
+        const urls = result.urlset.url;
+        urls.forEach((url) => {
+          urlList.push(url.loc[0]);
+        });
       }
-      console.log('result: ', result);
-      const urls = result.urlset.url;
-      console.log('urls: ', urls);
-      urls.forEach((url) => {
-        console.log(url.loc[0]);
-        urlList.push(url.loc[0]);
-      });
-      
     })
     
 
     console.log('urlList: ', urlList);
 
     pages.forEach((page) => {
-      console.log('page: ', page);
+      console.log('page: ', `https://docs.amplify.aws${page}`);
       if(urlList.includes(`https://docs.amplify.aws${page}`)) {
         console.log(`Testing ${page}: \n`);
         exec(`axe http://localhost:3000${ page } --exit | jq ".[0].violations"`, (error, stdout, stderr) => {
