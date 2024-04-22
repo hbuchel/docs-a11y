@@ -12,7 +12,7 @@ const GITHUB_CREATE_ISSUE_LINK =
   'https://github.com/aws-amplify/docs/issues/new';
 const GITHUB_EDIT_LINK = 'https://github.com/aws-amplify/docs/edit/';
 
-const getSitemapUrls = async (localDomain) => {
+export const getSitemapUrls = async (localDomain) => {
   let browser = await puppeteer.launch({ headless: 'new' });
 
   const page = await browser.newPage();
