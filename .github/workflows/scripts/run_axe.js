@@ -14,8 +14,11 @@ module.exports = {
         urls.forEach(url => {
           urlList.push(url.loc[0]);
         });
+        
       })
-    })
+    });
+
+    console.log(urlList);
 
     pages.forEach((page) => {
       console.log('page: ', page);
