@@ -13,6 +13,7 @@ module.exports = {
         if(err) {
           console.log(err);
         }
+        console.log('result: ', result);
         const urls = result.urlset.url;
         console.log('urls: ', urls);
         urls.forEach((url) => {
