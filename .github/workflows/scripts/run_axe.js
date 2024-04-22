@@ -8,7 +8,7 @@ module.exports = {
 
     const urlList = [];
 
-    fs.readFile('public/sitemap.xml', function(err, data) {
+    fs.readFileSync('public/sitemap.xml', function(err, data) {
       parser.parseString(data, function(err, result) {
         const urls = result.urlset.url;
         urls.forEach(url => {
