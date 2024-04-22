@@ -21,9 +21,12 @@ module.exports = {
 
     pages.forEach((page) => {
       console.log('page: ', page);
-      exec(`axe http://localhost:3000${ page } --exit`, (error, stdout, stderr) => {
+      if(urlList.includes(`https://docs.amplify.aws${page}`)) {
+        exec(`axe http://localhost:3000${ page } --exit`, (error, stdout, stderr) => {
         console.log("STDOUT:", stdout, ", STDERR:", stderr);
       });
+      }
+      
     })
   }
 };
