@@ -12,6 +12,7 @@ module.exports = {
       parser.parseString(data, function(err, result) {
         const urls = result.urlset.url;
         urls.forEach(url => {
+          console.log(url);
           urlList.push(url.loc[0]);
         });
         
