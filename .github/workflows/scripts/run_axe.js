@@ -8,7 +8,7 @@ module.exports = {
 
     fs.readFile('public/sitemap.xml', function(err, data) {
       parser.parseString(data, function(err, result) {
-        console.log(result.urlset);
+        console.log(result.urlset.url);
         console.log('Done');
       })
     })
