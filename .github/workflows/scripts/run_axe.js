@@ -19,7 +19,7 @@ module.exports = {
       })
     });
 
-    console.log(urlList);
+    console.log('urlList: ', urlList);
 
     pages.forEach((page) => {
       console.log('page: ', page);
