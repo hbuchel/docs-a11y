@@ -15,8 +15,8 @@ module.exports = {
 
     pages.forEach((page) => {
       console.log('page: ', page);
-      exec(`axe http://localhost:3000${ page } --exit`, (stdout) => {
-        console.log(stdout);
+      exec(`axe http://localhost:3000/${ page } --exit`, (error, stdout, stderr) => {
+        console.log("STDOUT:", stdout, ", STDERR:", stderr);
       });
     })
   }
