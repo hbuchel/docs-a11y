@@ -7,22 +7,22 @@ module.exports = {
     var parser = new xml2js.Parser();
 
     const urlList = [];
-
-    fs.readFileSync('public/sitemap.xml', function(err, data) {
-      parser.parseString(data, function(err, result) {
-        if(err) {
-          console.log(err);
-        }
-        console.log('result: ', result);
-        const urls = result.urlset.url;
-        console.log('urls: ', urls);
-        urls.forEach((url) => {
-          console.log(url.loc[0]);
-          urlList.push(url.loc[0]);
-        });
-        
-      })
-    });
+    const siteMap = fs.readFileSync('public/sitemap.xml');
+    
+    parser.parseString(siteMap, function(err, result) {
+      if(err) {
+        console.log(err);
+      }
+      console.log('result: ', result);
+      const urls = result.urlset.url;
+      console.log('urls: ', urls);
+      urls.forEach((url) => {
+        console.log(url.loc[0]);
+        urlList.push(url.loc[0]);
+      });
+      
+    })
+    
 
     console.log('urlList: ', urlList);
 
