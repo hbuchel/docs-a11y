@@ -8,14 +8,14 @@ module.exports = {
 
     fs.readFile('public/sitemap.xml', function(err, data) {
       parser.parseString(data, function(err, result) {
-        console.dir(result);
+        console.log(result.urlset);
         console.log('Done');
       })
     })
 
     pages.forEach((page) => {
       console.log('page: ', page);
-      exec(`axe http://localhost:3000/${ page } --exit`, (error, stdout, stderr) => {
+      exec(`axe http://localhost:3000${ page } --exit`, (error, stdout, stderr) => {
         console.log("STDOUT:", stdout, ", STDERR:", stderr);
       });
     })
