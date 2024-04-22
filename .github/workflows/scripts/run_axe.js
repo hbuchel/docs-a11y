@@ -14,8 +14,6 @@ module.exports = {
         urls.forEach(url => {
           urlList.push(url.loc[0]);
         });
-        console.log(result.urlset.url);
-        console.log('Done');
       })
     })
 
