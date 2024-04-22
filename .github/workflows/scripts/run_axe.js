@@ -6,8 +6,14 @@ module.exports = {
 
     var parser = new xml2js.Parser();
 
+    const urlList = [];
+
     fs.readFile('public/sitemap.xml', function(err, data) {
       parser.parseString(data, function(err, result) {
+        const urls = result.urlset.url;
+        urls.forEach(url => {
+          urlList.push(url.loc[0]);
+        });
         console.log(result.urlset.url);
         console.log('Done');
       })
