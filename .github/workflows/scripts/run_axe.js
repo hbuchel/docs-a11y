@@ -1,9 +1,12 @@
 module.exports = {
   runAxe: (pages) => {
-    const { exec } = require('child_process');
+    const { AxePuppeteer } = require('@axe-core/puppeteer');
+    const puppeteer = require('puppeteer');
+
+   
     const fs = require('fs');
     const xml2js = require('xml2js');
-    let output;
+    
     var parser = new xml2js.Parser();
 
     const urlList = [];
@@ -22,32 +25,20 @@ module.exports = {
 
     pages.forEach((page) => {
       if(urlList.includes(`https://docs.amplify.aws${page}/`)) {
+        (async () => {
+          const browser = await puppeteer.launch();
+          const page = await browser.newPage();
+          await page.goto(`http://localhost:3000${ page }/`);
         
-        exec(`axe http://localhost:3000${ page }/ --stdout`, (error, stdout, stderr) => {
-          console.log(`Testing http://localhost:3000${ page }/: \n`);
-          if(stderr) {
-            console.error(stderr);
-          } else if (error) {
-            console.error(error);
-          } else {
-            const report = JSON.parse(stdout);
-            if (report[0].violations.length > 0) {
-              report[0].violations.forEach((violation) => {
-                const { description, nodes } = violation;
-                console.error("Description: ", description);
-                nodes.forEach((node) => {
-                  const { failureSummary, html, target } = node;
-                  console.log(failureSummary);
-                  console.log("HTML: \n\t", html);
-                  target.forEach((selector) => {
-                    console.log("Found at: \n\t", selector);
-                  });
-                  console.clear();
-                });
-              });
-            }
+          try {
+            const results = await new AxePuppeteer(page).analyze();
+            console.log(results);
+          } catch (e) {
+            // do something with the error
           }
-        });
+        
+          await browser.close();
+        })();
       }
     })
   }

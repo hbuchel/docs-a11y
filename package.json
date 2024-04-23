@@ -26,6 +26,7 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
+    "@axe-core/puppeteer": "^4.9.0",
     "@axe-core/react": "^4.9.0",
     "@mdx-js/loader": "^2.3.0",
     "@mdx-js/mdx": "^2.3.0",

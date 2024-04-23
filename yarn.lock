@@ -911,6 +911,13 @@
   dependencies:
     tslib "^2.3.1"
 
+"@axe-core/puppeteer@^4.9.0":
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/@axe-core/puppeteer/-/puppeteer-4.9.0.tgz#13db7765e86e362f48c9958132f92ec9c24679b2"
+  integrity sha512-hSlFjfJ6SzrE/XLJllNYbnz5ZgD6MI5+WsNXFfBf1c1I/Zq0jsl147RvHtgMCkgZMIltV5LDupnqj5Uyt8i6Lw==
+  dependencies:
+    axe-core "~4.9.0"
+
 "@axe-core/react@^4.9.0":
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/@axe-core/react/-/react-4.9.0.tgz#51197c20a9ef72ebef0dbf3c35a1e49c0f01c00d"
