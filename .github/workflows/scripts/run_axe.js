@@ -28,6 +28,7 @@ module.exports = {
         (async () => {
           const browser = await puppeteer.launch();
           const page = await browser.newPage();
+          console.log('page: ', `http://localhost:3000${ page }/`);
           await page.goto(`http://localhost:3000${ page }/`);
         
           try {
