@@ -23,7 +23,7 @@ module.exports = {
     pages.forEach((page) => {
       if(urlList.includes(`https://docs.amplify.aws${page}/`)) {
         
-        exec(`axe http://localhost:3000${ page }/ --stdout`, {maxBuffer: 3072}, (error, stdout, stderr) => {
+        exec(`axe http://localhost:3000${ page }/ --stdout`, (error, stdout, stderr) => {
           console.log(`Testing http://localhost:3000${ page }/: \n`);
           if(stderr) {
             console.error(stderr);
@@ -42,6 +42,7 @@ module.exports = {
                   target.forEach((selector) => {
                     console.log("Found at: \n\t", selector);
                   });
+                  console.clear();
                 });
               });
             }
