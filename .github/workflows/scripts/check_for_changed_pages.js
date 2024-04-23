@@ -1,5 +1,5 @@
 module.exports = {
-  getChangedPages: ({ github, context, core }) => {
+  getChangedPages: ({ github, context }) => {
     const {
       issue: { number: issue_number },
       repo: { owner, repo }
@@ -28,8 +28,8 @@ module.exports = {
         files.forEach(({filename}) => {
           // src/pages/[platform]/how-amplify-works/index.mdx
     
-          const isMDXPage = filename.startsWith('src/pages') && filename.endsWith('index.mdx');
-          if(isMDXPage) {
+          const isPage = filename.startsWith('src/pages') && (filename.endsWith('index.mdx') || filename.endsWith('index.tsx'));
+          if(isPage) {
 
             const path = filename.replace('src/pages', '').replace('/index.mdx', '');
             platforms.forEach((platform) => {
@@ -37,7 +37,6 @@ module.exports = {
             })
           }
         })
-        console.log('Changed pages: ', JSON.stringify(pages));
 
         // Return the new files count to be used in the github workflow
         return pages;

@@ -65,10 +65,11 @@ export default function Page() {
           Build fullstack apps with your framework of choice
         </Heading>
         <Text>
-          AWS Amplify provides libraries for popular web and mobile frameworks,
-          like JavaScript, Flutter, Swift, and React. Our guides, APIs, and
-          other resources will help you build, connect, and host fullstack apps
-          on AWS. Get started by selecting your preferred framework.
+          Test Change AWS Amplify provides libraries for popular web and mobile
+          frameworks, like JavaScript, Flutter, Swift, and React. Our guides,
+          APIs, and other resources will help you build, connect, and host
+          fullstack apps on AWS. Get started by selecting your preferred
+          framework.
         </Text>
         <FrameworkGrid currentKey={defaultPlatform} />
       </Flex>

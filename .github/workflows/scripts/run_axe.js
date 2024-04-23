@@ -21,7 +21,6 @@ module.exports = {
     })
 
     pages.forEach((page) => {
-      console.log('page: ', `https://docs.amplify.aws${page}/`, ' is in siteMap?: ', urlList.includes(`https://docs.amplify.aws${page}/`));
       if(urlList.includes(`https://docs.amplify.aws${page}/`)) {
         console.log(`Testing ${page}: \n`);
         exec(`axe http://localhost:3000${ page } --exit`, (error, stdout, stderr) => {
