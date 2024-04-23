@@ -23,8 +23,31 @@ module.exports = {
     pages.forEach((page) => {
       if(urlList.includes(`https://docs.amplify.aws${page}/`)) {
         console.log(`Testing ${page}: \n`);
-        exec(`axe http://localhost:3000${ page } --stdout --exit`, (error, stdout, stderr) => {
-          console.log(stdout);
+        exec(`axe http://localhost:3000${ page } --stdout`, (error, stdout, stderr) => {
+          if(stderr) {
+            console.error(stderr);
+          } else if (error) {
+            console.error(error);
+          } else {
+            const report = JSON.parse(stdout);
+            if (report[0].violations.length > 0) {
+              report[0].violations.forEach((violation) => {
+                violations.push(violation);
+                const { description, nodes } = violation;
+                console.error("Description: ", description);
+                nodes.forEach((node) => {
+                  const { failureSummary, html, target } = node;
+                  console.log(failureSummary);
+                  console.log("HTML: \n\t", html);
+                  target.forEach((selector) => {
+                    console.log("Found at: \n\t", selector);
+                  });
+                });
+              });
+            }
+          }
+
+          
         });
       }
     })
