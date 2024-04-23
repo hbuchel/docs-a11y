@@ -31,7 +31,7 @@ module.exports = {
           const isPage = filename.startsWith('src/pages') && (filename.endsWith('index.mdx') || filename.endsWith('index.tsx'));
           if(isPage) {
 
-            const path = filename.replace('src/pages', '').replace('/index.mdx', '');
+            const path = filename.replace('src/pages', '').replace('/index.mdx', '').replace('/index.tsx', '');
             platforms.forEach((platform) => {
               pages.push(path.replace('[platform]', platform));
             })
