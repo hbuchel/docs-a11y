@@ -27,7 +27,7 @@ module.exports = {
       console.log('page: ', `https://docs.amplify.aws${page}/`, ' is in siteMap?: ', urlList.includes(`https://docs.amplify.aws${page}`));
       if(urlList.includes(`https://docs.amplify.aws${page}/`)) {
         console.log(`Testing ${page}: \n`);
-        exec(`axe http://localhost:3000${ page } --exit"`, (error, stdout, stderr) => {
+        exec(`axe http://localhost:3000${ page } --exit`, (error, stdout, stderr) => {
         console.log("STDOUT:", stdout, ", STDERR:", stderr);
       });
       }
