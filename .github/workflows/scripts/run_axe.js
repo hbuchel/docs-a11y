@@ -3,7 +3,7 @@ module.exports = {
     const { exec } = require('child_process');
     const fs = require('fs');
     const xml2js = require('xml2js');
-
+    let output;
     var parser = new xml2js.Parser();
 
     const urlList = [];
@@ -23,11 +23,10 @@ module.exports = {
     pages.forEach((page) => {
       if(urlList.includes(`https://docs.amplify.aws${page}/`)) {
         console.log(`Testing ${page}: \n`);
-        exec(`axe http://localhost:3000${ page } --exit`, (error, stdout, stderr) => {
-        console.log("STDOUT:", stdout, ", STDERR:", stderr);
-      });
+        exec(`axe http://localhost:3000${ page } --stdout --exit`, (error, stdout, stderr) => {
+          console.log(stdout);
+        });
       }
-      
     })
   }
 };
