@@ -32,7 +32,6 @@ module.exports = {
             const report = JSON.parse(stdout);
             if (report[0].violations.length > 0) {
               report[0].violations.forEach((violation) => {
-                violations.push(violation);
                 const { description, nodes } = violation;
                 console.error("Description: ", description);
                 nodes.forEach((node) => {
@@ -46,8 +45,6 @@ module.exports = {
               });
             }
           }
-
-          
         });
       }
     })
