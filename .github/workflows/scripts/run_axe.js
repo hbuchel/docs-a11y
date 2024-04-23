@@ -22,8 +22,9 @@ module.exports = {
 
     pages.forEach((page) => {
       if(urlList.includes(`https://docs.amplify.aws${page}/`)) {
-        console.log(`Testing ${page}: \n`);
-        exec(`axe http://localhost:3000${ page } --stdout`, (error, stdout, stderr) => {
+        
+        exec(`axe http://localhost:3000${ page }/ --stdout`, {maxBuffer: 3072}, (error, stdout, stderr) => {
+          console.log(`Testing http://localhost:3000${ page }/: \n`);
           if(stderr) {
             console.error(stderr);
           } else if (error) {
