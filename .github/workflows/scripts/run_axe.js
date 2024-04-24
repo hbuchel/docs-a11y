@@ -23,24 +23,25 @@ module.exports = {
       }
     })
 
-    pages.forEach((page) => {
-      if(urlList.includes(`https://docs.amplify.aws${page}/`)) {
-        (async () => {
-          const browser = await puppeteer.launch();
-          const page = await browser.newPage();
-          console.log('page: ', `http://localhost:3000${ page }/`);
-          await page.goto(`http://localhost:3000${ page }/`);
-        
-          try {
-            const results = await new AxePuppeteer(page).analyze();
-            console.log(results);
-          } catch (e) {
-            // do something with the error
-          }
-        
-          await browser.close();
-        })();
+    const existingPages = pages.filter((urlList.includes(`https://docs.amplify.aws${page}/`)));
+
+    async function runAxeAnalyze(page) {
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+      await page.goto(`http://localhost:3000${ page }/`);
+      try {
+        const results = await new AxePuppeteer(page).analyze();
+        console.log(results);
+      } catch (e) {
+        // do something with the error
       }
+    
+      await browser.close();
+    }
+
+    existingPages.forEach((page) => {
+      console.log('page: ', `http://localhost:3000${ page }/`);
+      runAxeAnalyze(page);
     })
   }
 };
