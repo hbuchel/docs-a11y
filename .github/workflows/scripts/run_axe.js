@@ -2,8 +2,6 @@ module.exports = {
   runAxe: (pages) => {
     const { AxePuppeteer } = require('@axe-core/puppeteer');
     const puppeteer = require('puppeteer');
-    const core = require('@actions/core');
-   
     const fs = require('fs');
     const xml2js = require('xml2js');
     

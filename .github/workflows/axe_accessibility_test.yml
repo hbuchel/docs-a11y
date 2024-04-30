@@ -23,7 +23,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { getChangedPages } = require('./.github/workflows/scripts/check_for_changed_pages.js');
-            return getChangedPages({github, context, core});
+            return getChangedPages({github, context});
       - name: Install dependencies
         run: yarn
       - name: Build
