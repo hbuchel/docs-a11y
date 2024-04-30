@@ -27,7 +27,7 @@ module.exports = {
     async function runAxeAnalyze(pages) {
       console.log(`running axe on ${pages}`);
       for (const page of pages) {
-        console.log(`testing page ${page}`);
+        console.log(`testing page http://localhost:3000${page}/`);
         const browser = await puppeteer.launch();
         const pageToVisit = await browser.newPage();
         await pageToVisit.goto(`http://localhost:3000${page}/`);
