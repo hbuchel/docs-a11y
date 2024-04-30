@@ -32,9 +32,14 @@ module.exports = {
           if(isPage) {
 
             const path = filename.replace('src/pages', '').replace('/index.mdx', '').replace('/index.tsx', '');
-            platforms.forEach((platform) => {
-              pages.push(path.replace('[platform]', platform));
-            })
+            if(path.includes('[platform]')) {
+              platforms.forEach((platform) => {
+                pages.push(path.replace('[platform]', platform));
+              })
+            } else {
+              pages.push(path);
+            }
+            
           }
         })
 
