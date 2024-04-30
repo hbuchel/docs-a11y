@@ -27,10 +27,10 @@ module.exports = {
 
     async function runAxeAnalyze(page) {
       const browser = await puppeteer.launch();
-      const page = await browser.newPage();
+      const pageToVisit = await browser.newPage();
       await page.goto(`http://localhost:3000${ page }/`);
       try {
-        const results = await new AxePuppeteer(page).analyze();
+        const results = await new AxePuppeteer(pageToVisit).analyze();
         console.log(results);
       } catch (e) {
         // do something with the error
