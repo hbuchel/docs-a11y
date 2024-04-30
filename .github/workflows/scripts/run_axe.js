@@ -2,7 +2,7 @@ module.exports = {
   runAxe: (pages) => {
     const { AxePuppeteer } = require('@axe-core/puppeteer');
     const puppeteer = require('puppeteer');
-
+    const core = require('@actions/core');
    
     const fs = require('fs');
     const xml2js = require('xml2js');
@@ -10,6 +10,7 @@ module.exports = {
     var parser = new xml2js.Parser();
 
     const urlList = [];
+    const violations = [];
     const siteMap = fs.readFileSync('public/sitemap.xml');
     
     parser.parseString(siteMap, function(err, result) {
@@ -34,11 +35,20 @@ module.exports = {
         await pageToVisit.goto(`http://localhost:3000${page}/`);
         try {
           const results = await new AxePuppeteer(pageToVisit).analyze();
+          if(results.violations) {
+            results.violations.forEach(violation => {
+              console.log(violation);
+              violations.push(violation);
+            })
+          }
           console.log(results.violations);
         } catch (e) {
           // do something with the error
         }
         await browser.close();
+      }
+      if (violations.length > 0) {
+        core.setFailed(`Please resolve the above accessibility violations.`);
       }
     }
 
