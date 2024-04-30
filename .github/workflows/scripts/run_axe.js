@@ -25,7 +25,7 @@ module.exports = {
 
     const existingPages = pages.filter((page) => urlList.includes(`https://docs.amplify.aws${page}/`));
 
-    async function runAxeAnalyze(page) {
+    async function runAxeAnalyze(pages) {
       console.log(`running axe on ${pages}`);
       for (const page of pages) {
         console.log(`testing page ${page}`);
