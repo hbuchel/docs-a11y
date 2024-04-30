@@ -50,6 +50,8 @@ module.exports = {
       if (violations.length > 0) {
         core.setFailed(`Please resolve the above accessibility violations.`);
       }
+
+      return violations;
     }
 
     runAxeAnalyze(existingPages);
