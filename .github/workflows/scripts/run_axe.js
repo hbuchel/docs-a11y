@@ -23,7 +23,7 @@ module.exports = {
       }
     })
 
-    const existingPages = pages.filter((urlList.includes(`https://docs.amplify.aws${page}/`)));
+    const existingPages = pages.filter((page) => urlList.includes(`https://docs.amplify.aws${page}/`));
 
     async function runAxeAnalyze(page) {
       const browser = await puppeteer.launch();
