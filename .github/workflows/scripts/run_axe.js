@@ -1,5 +1,6 @@
 module.exports = {
   runAxe: (pages) => {
+    const core = require('@actions/core');
     const { AxePuppeteer } = require('@axe-core/puppeteer');
     const puppeteer = require('puppeteer');
     const fs = require('fs');
@@ -25,7 +26,6 @@ module.exports = {
     const existingPages = pages.filter((page) => urlList.includes(`https://docs.amplify.aws${page}/`));
 
     async function runAxeAnalyze(pages) {
-      console.log(`running axe on ${pages}`);
       for (const page of pages) {
         console.log(`testing page http://localhost:3000${page}/`);
         const browser = await puppeteer.launch();
@@ -38,15 +38,20 @@ module.exports = {
               console.log(violation);
               violations.push(violation);
             })
+          } else {
+            console.log('No violations found.');
           }
-          console.log(results.violations);
+          
         } catch (e) {
           // do something with the error
         }
         await browser.close();
       }
-
-      return violations;
+      if(violations.length > 0) {
+        core.setFailed(`Please fix the above accessibility violations.`);
+      }
+      
+      
     }
 
     runAxeAnalyze(existingPages);
