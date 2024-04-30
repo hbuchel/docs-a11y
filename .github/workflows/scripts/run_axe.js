@@ -34,7 +34,7 @@ module.exports = {
         await pageToVisit.goto(`http://localhost:3000${page}/`);
         try {
           const results = await new AxePuppeteer(pageToVisit).analyze();
-          console.log(results);
+          console.log(results.violations);
         } catch (e) {
           // do something with the error
         }
