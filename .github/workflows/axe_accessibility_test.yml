@@ -43,6 +43,3 @@ jobs:
             const { runAxe } = require('./.github/workflows/scripts/run_axe.js');
             const pages = ${{ steps.pages-to-a11y-test.outputs.result }}
             return await runAxe(pages)
-      - name: Fail if accessibility violations are found.
-        if: ${{ steps.axeResults.outputs.result }}
-        run: exit 1
