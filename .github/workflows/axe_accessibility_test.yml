@@ -37,6 +37,9 @@ jobs:
       - name: Install axe cli
         run: |
           npm install -g  @axe-core/cli
+      - name: Install actions/core
+        run: |
+          npm install @actions/core
       - name: Run axe on changed/new MDX pages
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1 https://github.com/actions/github-script/commit/60a0d83039c74a4aee543508d2ffcb1c3799cdea
         id: axe-results
