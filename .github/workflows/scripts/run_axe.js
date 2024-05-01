@@ -3,28 +3,9 @@ module.exports = {
     const core = require('@actions/core');
     const { AxePuppeteer } = require('@axe-core/puppeteer');
     const puppeteer = require('puppeteer');
-    const fs = require('fs');
-    const xml2js = require('xml2js');
     
-    var parser = new xml2js.Parser();
-
-    const urlList = [];
     const violations = [];
-    const siteMap = fs.readFileSync('public/sitemap.xml');
     
-    parser.parseString(siteMap, function(err, result) {
-      if(err) {
-        console.log(`Error parsing sitemap: ${err}`);
-      } else {
-        const urls = result.urlset.url;
-        urls.forEach((url) => {
-          urlList.push(url.loc[0]);
-        });
-      }
-    })
-
-    const existingPages = pages.filter((page) => urlList.includes(`https://docs.amplify.aws${page}/`));
-
     async function runAxeAnalyze(pages) {
       for (const page of pages) {
         console.log(`testing page http://localhost:3000${page}/`);
@@ -50,10 +31,8 @@ module.exports = {
       if(violations.length > 0) {
         core.setFailed(`Please fix the above accessibility violations.`);
       }
-      
-      
     }
 
-    runAxeAnalyze(existingPages);
+    runAxeAnalyze(pages);
   }
 };

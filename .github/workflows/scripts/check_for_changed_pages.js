@@ -1,5 +1,13 @@
 module.exports = {
   getChangedPages: ({ github, context }) => {
+    const fs = require('fs');
+    const xml2js = require('xml2js');
+    
+    const parser = new xml2js.Parser();
+
+    const urlList = [];
+    
+    
     const {
       issue: { number: issue_number },
       repo: { owner, repo }
@@ -13,7 +21,7 @@ module.exports = {
         (response) => response.data.filter((file) => (file.status === 'modified' || file.status === 'added'))
       )
       .then((files) => {
-        const pages = [];
+        const possiblePages = [];
         const platforms = [
           'android',
           'angular',
@@ -26,24 +34,37 @@ module.exports = {
           'vue',
         ]
         files.forEach(({filename}) => {
-          // src/pages/[platform]/how-amplify-works/index.mdx
-    
           const isPage = filename.startsWith('src/pages') && (filename.endsWith('index.mdx') || filename.endsWith('index.tsx'));
           if(isPage) {
 
             const path = filename.replace('src/pages', '').replace('/index.mdx', '').replace('/index.tsx', '');
             if(path.includes('[platform]')) {
               platforms.forEach((platform) => {
-                pages.push(path.replace('[platform]', platform));
+                possiblePages.push(path.replace('[platform]', platform));
               })
             } else {
-              pages.push(path);
+              possiblePages.push(path);
             }
-            
           }
         })
 
-        // Return the new files count to be used in the github workflow
+        
+
+        const siteMap = fs.readFileSync('public/sitemap.xml');
+    
+        parser.parseString(siteMap, function(err, result) {
+          if(err) {
+            console.log(`Error parsing sitemap: ${err}`);
+          } else {
+            const urls = result.urlset.url;
+            urls.forEach((url) => {
+              urlList.push(url.loc[0]);
+            });
+          }
+        })
+
+        const pages = possiblePages.filter((page) => urlList.includes(`https://docs.amplify.aws${page}/`));
+        
         return pages;
       });
   },
