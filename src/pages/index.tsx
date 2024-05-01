@@ -61,7 +61,7 @@ export default function Page() {
         </Flex>
       </Flex>
       <Flex direction="column">
-        <Heading level={2}>
+        <Heading level={3}>
           Build fullstack apps with your framework of choice
         </Heading>
         <Text>
