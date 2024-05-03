@@ -10,6 +10,7 @@ module.exports = {
       }
     ]
   },
+  testEnvironment: 'jsdom',
   testPathIgnorePatterns: ['capi', '.next', 'client'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
@@ -20,5 +21,5 @@ module.exports = {
     '@/data/(.*)': '<rootDir>/src/data/$1',
     '@/directory/(.*)': '<rootDir>/src/directory/$1'
   },
-  transformIgnorePatterns: []
+  transformIgnorePatterns: ['node_modules/(?!variables/.*)']
 };
