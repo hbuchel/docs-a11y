@@ -60,8 +60,8 @@ export default function Page() {
           <GetStartedPopover platform={DEFAULT_PLATFORM} />
         </Flex>
       </Flex>
-      <Flex direction="column">
-        <Heading level={2}>
+      <Flex direction="column" backgroundColor="blue">
+        <Heading level={2} color="red">
           Build fullstack apps with your framework of choice
         </Heading>
         <Text>
