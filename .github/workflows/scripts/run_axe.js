@@ -12,6 +12,9 @@ module.exports = {
         const browser = await puppeteer.launch();
         const pageToVisit = await browser.newPage();
         await pageToVisit.goto(`http://localhost:3000${page}/`);
+        await pageToVisit.click('button[title="Light mode"]');
+        await pageToVisit.waitForSelector('[data-amplify-color-mode="light"]');
+
         
         try {
           console.log('\nTesting light mode: \n')
