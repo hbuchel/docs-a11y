@@ -12,7 +12,9 @@ module.exports = {
         const browser = await puppeteer.launch();
         const pageToVisit = await browser.newPage();
         await pageToVisit.goto(`http://localhost:3000${page}/`);
+        
         try {
+          console.log('\nTesting light mode: \n')
           const results = await new AxePuppeteer(pageToVisit).analyze();
           if(results.violations) {
             results.violations.forEach(violation => {
@@ -31,6 +33,7 @@ module.exports = {
         await pageToVisit.waitForSelector('[data-amplify-color-mode="dark"]');
 
         try {
+          console.log('\nTesting dark mode: \n')
           const results = await new AxePuppeteer(pageToVisit).analyze();
           if(results.violations) {
             results.violations.forEach(violation => {
