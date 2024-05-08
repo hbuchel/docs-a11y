@@ -6,14 +6,17 @@ module.exports = {
     
     const violations = [];
     
+    const sleep = ms => new Promise(res => setTimeout(res, ms));
+
     async function runAxeAnalyze(pages) {
       for (const page of pages) {
         console.log(`testing page http://localhost:3000${page}/`);
         const browser = await puppeteer.launch();
         const pageToVisit = await browser.newPage();
-        await pageToVisit.goto(`http://localhost:3000${page}/`);
+        await pageToVisit.goto(`http://localhost:3000${page}/`, {waitUntil: 'domcontentloaded'});
         await pageToVisit.click('button[title="Light mode"]');
         await pageToVisit.waitForSelector('[data-amplify-color-mode="light"]');
+        await sleep(300);
 
         
         try {
@@ -34,7 +37,8 @@ module.exports = {
 
         await pageToVisit.click('button[title="Dark mode"]');
         await pageToVisit.waitForSelector('[data-amplify-color-mode="dark"]');
-
+        await sleep(300);
+        
         try {
           console.log('\nTesting dark mode: \n')
           const results = await new AxePuppeteer(pageToVisit).analyze();
