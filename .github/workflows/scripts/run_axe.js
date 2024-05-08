@@ -28,7 +28,7 @@ module.exports = {
         }
 
         await pageToVisit.click('button[title="Dark mode"]');
-        await pageToVisit.waitForTimeout(1000);
+        await page.waitForSelector('[data-amplify-color-mode="dark"]');
 
         try {
           const results = await new AxePuppeteer(pageToVisit).analyze();
