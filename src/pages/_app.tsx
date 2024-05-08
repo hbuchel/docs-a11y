@@ -139,15 +139,7 @@ function MyApp({ Component, pageProps }) {
 
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
 
-        {process.env.BUILD_ENV !== 'production' ? (
-          <>
-            <link
-              rel="preload"
-              as="script"
-              href="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
-            />
-          </>
-        ) : (
+        {process.env.BUILD_ENV !== 'production' ? null : (
           <>
             <link
               rel="preload"
@@ -160,16 +152,7 @@ function MyApp({ Component, pageProps }) {
 
       <MDXProvider>{getLayout(<Component {...pageProps} />)}</MDXProvider>
 
-      {process.env.BUILD_ENV !== 'production' ? (
-        <>
-          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-          <script src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
-          <script
-            src="https://alpha.d2c.marketing.aws.dev/client/loader/v1/d2c-load.js"
-            defer
-          ></script>
-        </>
-      ) : (
+      {process.env.BUILD_ENV !== 'production' ? null : (
         <>
           {/* eslint-disable-next-line @next/next/no-sync-scripts */}
           <script src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
