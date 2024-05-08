@@ -26,6 +26,25 @@ module.exports = {
         } catch (e) {
           // do something with the error
         }
+
+        await pageToVisit.click('button[title="Dark mode"]');
+        await pageToVisit.waitForTimeout(1000);
+
+        try {
+          const results = await new AxePuppeteer(pageToVisit).analyze();
+          if(results.violations) {
+            results.violations.forEach(violation => {
+              console.log(violation);
+              violations.push(violation);
+            })
+          } else {
+            console.log('No violations found.');
+          }
+          
+        } catch (e) {
+          // do something with the error
+        }
+
         await browser.close();
       }
       if(violations.length > 0) {
