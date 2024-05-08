@@ -14,7 +14,7 @@ describe('home page', () => {
 
   it('should display the home page with no accessibility violations in dark mode', async () => {
     await page.click('button[title="Dark mode"]');
-    await pageToVisit.waitForTimeout(1000);
+    await page.waitForTimeout(1000);
     const results = await new AxePuppeteer(page).analyze();
     expect(results.violations).toHaveLength(0);
   });
