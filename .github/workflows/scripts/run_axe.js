@@ -12,6 +12,7 @@ module.exports = {
       violation.nodes.forEach(node => {
         console.log(node.failureSummary);
         console.log(node.html);
+        console.log('\n');
       })
       
     }
@@ -29,13 +30,13 @@ module.exports = {
         try {
           console.log(`\nTesting light mode: http://localhost:3000${page}/`)
           const results = await new AxePuppeteer(pageToVisit).analyze();
-          if(results.violations) {
+          if(results.violations.length > 0) {
             results.violations.forEach(violation => {
               logViolation(violation);
               violations.push(violation);
             })
           } else {
-            console.log('No violations found.');
+            console.log('No violations found. \n');
           }
           
         } catch (e) {
@@ -55,7 +56,7 @@ module.exports = {
               violations.push(violation);
             })
           } else {
-            console.log('No violations found.');
+            console.log('No violations found. \n');
           }
           
         } catch (error) {
