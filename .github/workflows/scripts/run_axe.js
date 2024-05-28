@@ -13,9 +13,8 @@ module.exports = {
         console.log(node.failureSummary);
         console.log(node.html);
         node.target.forEach( target => {
-          console.log(target)
+          console.log('CSS target: ', target)
         })
-        console.log('\n');
       })
       
     }
