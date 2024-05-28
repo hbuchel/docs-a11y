@@ -8,6 +8,14 @@ module.exports = {
     
     const sleep = ms => new Promise(res => setTimeout(res, ms));
 
+    const logViolation = (violation) => {
+      violation.nodes.forEach(node => {
+        console.log(node.failureSummary);
+        console.log(node.html);
+      })
+      
+    }
+
     async function runAxeAnalyze(pages) {
       for (const page of pages) {
         const browser = await puppeteer.launch();
@@ -23,7 +31,7 @@ module.exports = {
           const results = await new AxePuppeteer(pageToVisit).analyze();
           if(results.violations) {
             results.violations.forEach(violation => {
-              console.log(violation);
+              logViolation(violation);
               violations.push(violation);
             })
           } else {
@@ -43,7 +51,7 @@ module.exports = {
           const results = await new AxePuppeteer(pageToVisit).analyze();
           if(results.violations.length > 0) {
             results.violations.forEach(violation => {
-              console.log(violation);
+              logViolation(violation);
               violations.push(violation);
             })
           } else {
