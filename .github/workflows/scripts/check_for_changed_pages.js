@@ -1,5 +1,5 @@
 module.exports = {
-  getChangedPages: ({ github, context }, buildDir) => {
+  getChangedPages: ({ github, context, buildDir }) => {
     console.log('buildDir: ', buildDir);
     const fs = require('fs');
     const cheerio = require('cheerio');
