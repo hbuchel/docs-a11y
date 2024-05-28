@@ -10,7 +10,6 @@ module.exports = {
 
     async function runAxeAnalyze(pages) {
       for (const page of pages) {
-        console.log(`testing page http://localhost:3000${page}/`);
         const browser = await puppeteer.launch();
         const pageToVisit = await browser.newPage();
         await pageToVisit.goto(`http://localhost:3000${page}/`, {waitUntil: 'domcontentloaded'});
@@ -20,7 +19,7 @@ module.exports = {
 
         
         try {
-          console.log('\nTesting light mode:')
+          console.log(`\nTesting light mode: http://localhost:3000${page}/`)
           const results = await new AxePuppeteer(pageToVisit).analyze();
           if(results.violations) {
             results.violations.forEach(violation => {
@@ -40,9 +39,9 @@ module.exports = {
         await sleep(300);
         
         try {
-          console.log('\nTesting dark mode:')
+          console.log(`\nTesting dark mode: http://localhost:3000${page}/`)
           const results = await new AxePuppeteer(pageToVisit).analyze();
-          if(results.violations) {
+          if(results.violations.length > 0) {
             results.violations.forEach(violation => {
               console.log(violation);
               violations.push(violation);
@@ -51,8 +50,8 @@ module.exports = {
             console.log('No violations found.');
           }
           
-        } catch (e) {
-          // do something with the error
+        } catch (error) {
+          core.setFailed(`There was an error testing the page: ${error}`);
         }
 
         await browser.close();
