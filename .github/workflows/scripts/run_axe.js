@@ -20,7 +20,7 @@ module.exports = {
 
         
         try {
-          console.log('\nTesting light mode: \n')
+          console.log('\nTesting light mode:')
           const results = await new AxePuppeteer(pageToVisit).analyze();
           if(results.violations) {
             results.violations.forEach(violation => {
@@ -40,7 +40,7 @@ module.exports = {
         await sleep(300);
         
         try {
-          console.log('\nTesting dark mode: \n')
+          console.log('\nTesting dark mode:')
           const results = await new AxePuppeteer(pageToVisit).analyze();
           if(results.violations) {
             results.violations.forEach(violation => {
