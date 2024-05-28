@@ -12,6 +12,9 @@ module.exports = {
       violation.nodes.forEach(node => {
         console.log(node.failureSummary);
         console.log(node.html);
+        node.target.forEach( target => {
+          console.log(target)
+        })
         console.log('\n');
       })
       
