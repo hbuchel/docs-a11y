@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer'); // eslint-disable-line
-const { getSitemapUrls } = require('./get-sitemap-links'); // eslint-disable-line
+const { getSitemapUrls } = require('./get-sitemap-urls'); // eslint-disable-line
 
 // Here we are excluding shortbread errors because these are domain specific and are expected to fail in a local environment
 const excludedErrors = [
@@ -84,7 +84,7 @@ const checkPage = async (url) => {
 };
 
 const consoleErrors = async (domain) => {
-  const pagesToCheck = await getSitemapUrls(domain);
+  const pagesToCheck = await getSitemapUrls({localDomain: domain});
   let errorMessage = '';
   for (let i = 0; i < pagesToCheck.length; i++) {
     const url = pagesToCheck[i];

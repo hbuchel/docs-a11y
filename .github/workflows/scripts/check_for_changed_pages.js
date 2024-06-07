@@ -1,7 +1,8 @@
+const { getSiteMapUrls } = require('/tasks/get-sitemap-urls.js');
+
 module.exports = {
   getChangedPages: async ({ github, context, buildDir }) => {
-    const { getSiteMapUrls } = require('./utilities.js');
-
+    
     const {
       issue: { number: issue_number },
       repo: { owner, repo }

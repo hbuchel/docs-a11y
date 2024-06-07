@@ -1,6 +1,3 @@
-const fs = require('fs');
-const cheerio = require('cheerio');
-
 module.exports = {
   /**
    * Get deleted files from pull request
@@ -71,28 +68,5 @@ module.exports = {
       `${workspace}/${artifactName}.zip`,
       Buffer.from(download.data)
     );
-  },
-   /**
-   * Returns an array of URLs from the sitemap
-   *
-   * @param {Object} obj - Object for parameters
-   * @param {string} obj.artifactName - Name of artifact file to get
-   * @param {string} obj.workspace - The github workflow workspace path to save the downloaded artifact to
-   */
-  getSiteMapUrls: async (buildDir) => {
-    const urlList = [];
-
-    // Get the sitemap and parse for an array of site URLs
-    const siteMap = fs.readFileSync(`${buildDir}/sitemap.xml`);
-
-    const siteMapParse = cheerio.load(siteMap, {
-      xml: true
-    });
-
-    siteMapParse('url').each(function () {
-      urlList.push(siteMapParse(this).find('loc').text());
-    });
-
-    return urlList;
   }
 };
