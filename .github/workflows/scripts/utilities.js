@@ -79,7 +79,7 @@ module.exports = {
    * @param {string} obj.artifactName - Name of artifact file to get
    * @param {string} obj.workspace - The github workflow workspace path to save the downloaded artifact to
    */
-  getSiteMapUrls: async ({buildDir}) => {
+  getSiteMapUrls: async (buildDir) => {
     const urlList = [];
 
     // Get the sitemap and parse for an array of site URLs
