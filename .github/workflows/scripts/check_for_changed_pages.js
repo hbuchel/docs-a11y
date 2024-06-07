@@ -1,9 +1,6 @@
 module.exports = {
   getChangedPages: async ({ github, context, buildDir }) => {
-    const fs = require('fs');
-    const cheerio = require('cheerio');
-
-    const urlList = [];
+    const { getSiteMapUrls } = require('./utilities.js');
 
     const {
       issue: { number: issue_number },
@@ -53,16 +50,7 @@ module.exports = {
       }
     });
 
-    // Get the sitemap and parse for an array of site URLs
-    const siteMap = fs.readFileSync(`${buildDir}/sitemap.xml`);
-
-    const siteMapParse = cheerio.load(siteMap, {
-      xml: true
-    });
-
-    siteMapParse('url').each(function () {
-      urlList.push(siteMapParse(this).find('loc').text());
-    });
+    const urlList = await getSiteMapUrls(buildDir);
 
     // Filter the possiblePages for only those that are part of the sitemap
     const pages = possiblePages.filter((page) =>
