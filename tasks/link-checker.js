@@ -257,7 +257,7 @@ const linkChecker = async (localDomain, links) => {
   if (brokenLinks.length > 0) {
     console.log('\n');
     core.setFailed(`Please fix the broken links found:`);
-    console.log(JSON.stringify(brokenLinks, null, 2));
+    console.log('Broken links:\n', JSON.stringify(brokenLinks, null, 2));
   }
 
   return formatString(brokenLinks);
