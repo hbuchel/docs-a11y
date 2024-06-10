@@ -1,8 +1,7 @@
 const puppeteer = require('puppeteer'); // eslint-disable-line
 const axios = require('axios'); // eslint-disable-line
+const { getSitemapUrls } = require('/tasks/get-sitemap-urls.js');
 
-const SITEMAP_URL = 'https://docs.amplify.aws/sitemap.xml';
-const DOMAIN = 'https://docs.amplify.aws';
 const CRAWLER_EXCEPTIONS = [
   'https://aaaaaaaaaa.execute-api.us-east-1.amazonaws.com/api',
   'https://aaaaaaaaaaaaaaaaaaaaaaaaaa.appsync-api.us-east-1.amazonaws.com/graphql',
@@ -12,41 +11,6 @@ const GITHUB_CREATE_ISSUE_LINK =
   'https://github.com/aws-amplify/docs/issues/new';
 const GITHUB_EDIT_LINK = 'https://github.com/aws-amplify/docs/edit/';
 
-const getSitemapUrls = async (localDomain) => {
-  let browser = await puppeteer.launch({ headless: 'new' });
-
-  const page = await browser.newPage();
-
-  let siteMap = localDomain ? `${localDomain}/sitemap.xml` : SITEMAP_URL;
-  let response = await page.goto(siteMap);
-
-  const siteMapUrls = [];
-
-  if (response && response.status() && response.status() === 200) {
-    const urlTags = await page.evaluateHandle(() => {
-      return document.getElementsByTagName('loc');
-    });
-
-    const numOfLinks = await page.evaluate((e) => e.length, urlTags);
-
-    for (let i = 0; i < numOfLinks; i++) {
-      let url = await page.evaluate(
-        (urlTags, i) => urlTags[i].innerHTML,
-        urlTags,
-        i
-      );
-      if (localDomain) {
-        // Currently the sitemap is always generated with the prod docs domain so we need to replace this with localhost
-        url = url.replace(DOMAIN, localDomain);
-      }
-      siteMapUrls.push(url);
-    }
-  }
-
-  browser.close();
-
-  return siteMapUrls;
-};
 
 /**
  * Helper function to consolidate link texts by Url
@@ -208,7 +172,7 @@ const formatString = (inputs) => {
  * @param {string[]} links List of urls as strings to check. If this array is passed then the link checker will only look at these links
  * @returns Urls that returned a 404
  */
-const linkChecker = async (localDomain, links) => {
+const linkChecker = async ({buildDir, localDomain, links}) => {
   const statusCodes = {};
   const brokenLinks = [];
 
@@ -217,7 +181,7 @@ const linkChecker = async (localDomain, links) => {
   if (Array.isArray(links) && links.length > 0) {
     urlsToVisit = await retrieveLinks(links, localDomain);
   } else {
-    const siteMapUrls = await getSitemapUrls(localDomain);
+    const siteMapUrls = await getSitemapUrls({buildDir, localDomain });
 
     urlsToVisit = await retrieveLinks(siteMapUrls, localDomain);
   }
@@ -263,7 +227,7 @@ module.exports = {
     return await linkChecker();
   },
   checkDevLinks: async () => {
-    return await linkChecker('http://localhost:3000');
+    return await linkChecker({buildDir: process.env.BUILD_DIR, localDomain: 'http://localhost:3000'});
   },
   checkSpecificLinks: async (localDomain, links) => {
     return await linkChecker(localDomain, links);
