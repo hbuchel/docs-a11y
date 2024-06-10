@@ -203,6 +203,15 @@ const formatString = (inputs) => {
   return retString;
 };
 
+export const linkCheckerResults = async (brokenLinks) => {
+  if (brokenLinks.length > 0) {
+    core.setFailed(`Please fix the following broken links.`);
+    console.log(formatString(brokenLinks));
+  } else {
+    core.setSuccess(`No broken links found.`);
+  }
+};
+
 /**
  * Makes a request to each link to check for 404s
  * @param {string} localDomain Base url for the links to check
@@ -253,14 +262,10 @@ const linkChecker = async (localDomain, links) => {
 
   console.log('\n');
   console.log('Status codes:\n', JSON.stringify(statusCodes, null, 2));
+  console.log('\n');
+  console.log('Broken links:\n', JSON.stringify(brokenLinks, null, 2));
 
-  if (brokenLinks.length > 0) {
-    console.log('\n');
-    core.setFailed(`Please fix the broken links found:`);
-    console.log(formatString(brokenLinks));
-  }
-
-  return formatString(brokenLinks);
+  return brokenLinks;
 };
 
 module.exports = {
