@@ -204,6 +204,7 @@ const formatString = (inputs) => {
 };
 
 const linkCheckerResults = async (brokenLinks) => {
+  console.log(`brokenLinks: `, brokenLinks);
   if (brokenLinks.length > 0) {
     core.setFailed(`Please fix the following broken links.`);
     console.log(formatString(brokenLinks));
