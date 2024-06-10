@@ -39,6 +39,6 @@ jobs:
           result-encoding: string
           script: |
             const { linkCheckerResults } = require('./tasks/link-checker.js');
-            const brokenLinks = ${{ steps.checkLinks.outputs.result }};
+            const brokenLinks = ${{ toJson(steps.checkLinks.outputs.result) }};
             console.log(brokenLinks);
             return await linkCheckerResults(brokenLinks);
