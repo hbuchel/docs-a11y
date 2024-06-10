@@ -203,7 +203,7 @@ const formatString = (inputs) => {
   return retString;
 };
 
-export const linkCheckerResults = async (brokenLinks) => {
+const linkCheckerResults = async (brokenLinks) => {
   if (brokenLinks.length > 0) {
     core.setFailed(`Please fix the following broken links.`);
     console.log(formatString(brokenLinks));
@@ -277,5 +277,8 @@ module.exports = {
   },
   checkSpecificLinks: async (localDomain, links) => {
     return await linkChecker(localDomain, links);
+  },
+  linkCheckerResults: async (brokenLinks) => {
+    return await linkCheckerResults(brokenLinks);
   }
 };
