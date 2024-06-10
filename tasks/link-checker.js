@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer'); // eslint-disable-line
 const axios = require('axios'); // eslint-disable-line
+const core = require('@actions/core'); // eslint-disable-line
 
 const SITEMAP_URL = 'https://docs.amplify.aws/sitemap.xml';
 const DOMAIN = 'https://docs.amplify.aws';
@@ -252,8 +253,12 @@ const linkChecker = async (localDomain, links) => {
 
   console.log('\n');
   console.log('Status codes:\n', JSON.stringify(statusCodes, null, 2));
-  console.log('\n');
-  console.log('Broken links:\n', JSON.stringify(brokenLinks, null, 2));
+
+  if (brokenLinks.length > 0) {
+    console.log('\n');
+    core.setFailed(`Please fix the broken links found:`);
+    console.log(JSON.stringify(brokenLinks, null, 2));
+  }
 
   return formatString(brokenLinks);
 };
