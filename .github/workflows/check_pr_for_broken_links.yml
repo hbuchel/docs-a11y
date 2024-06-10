@@ -40,4 +40,5 @@ jobs:
           script: |
             const { linkCheckerResults } = require('./tasks/link-checker.js');
             const brokenLinks = ${{ steps.checkLinks.outputs.result }};
+            console.log(brokenLinks);
             return await linkCheckerResults(brokenLinks);
