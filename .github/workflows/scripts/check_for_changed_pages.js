@@ -1,4 +1,4 @@
-const { getSiteMapUrls } = require('/tasks/get-sitemap-urls.js');
+const { getSitemapUrls } = require('/tasks/get-sitemap-urls.js');
 
 module.exports = {
   getChangedPages: async ({ github, context, buildDir }) => {
@@ -51,7 +51,7 @@ module.exports = {
       }
     });
 
-    const urlList = await getSiteMapUrls(buildDir);
+    const urlList = await getSitemapUrls(buildDir);
 
     // Filter the possiblePages for only those that are part of the sitemap
     const pages = possiblePages.filter((page) =>
