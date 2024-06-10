@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer'); // eslint-disable-line
 const axios = require('axios'); // eslint-disable-line
+const core = require('@actions/core'); // eslint-disable-line
 
 const SITEMAP_URL = 'https://docs.amplify.aws/sitemap.xml';
 const DOMAIN = 'https://docs.amplify.aws';
@@ -202,6 +203,16 @@ const formatString = (inputs) => {
   return retString;
 };
 
+const linkCheckerResults = async (brokenLinks) => {
+  console.log(`brokenLinks: `, brokenLinks);
+  if (brokenLinks.length > 0) {
+    core.setFailed(`Please fix the following broken links.`);
+    console.log(formatString(brokenLinks));
+  } else {
+    core.setSuccess(`No broken links found.`);
+  }
+};
+
 /**
  * Makes a request to each link to check for 404s
  * @param {string} localDomain Base url for the links to check
@@ -255,7 +266,7 @@ const linkChecker = async (localDomain, links) => {
   console.log('\n');
   console.log('Broken links:\n', JSON.stringify(brokenLinks, null, 2));
 
-  return formatString(brokenLinks);
+  return brokenLinks;
 };
 
 module.exports = {
@@ -267,5 +278,8 @@ module.exports = {
   },
   checkSpecificLinks: async (localDomain, links) => {
     return await linkChecker(localDomain, links);
+  },
+  linkCheckerResults: async (brokenLinks) => {
+    return await linkCheckerResults(brokenLinks);
   }
 };

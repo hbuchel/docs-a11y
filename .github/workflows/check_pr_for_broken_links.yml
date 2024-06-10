@@ -34,5 +34,11 @@ jobs:
             const { checkDevLinks } = require('./tasks/link-checker.js');
             return await checkDevLinks();
       - name: Fail if broken links have been found
-        if: ${{ steps.checkLinks.outputs.result }}
-        run: exit 1
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          result-encoding: string
+          script: |
+            const { linkCheckerResults } = require('./tasks/link-checker.js');
+            const brokenLinks = ${{ toJson(steps.checkLinks.outputs.result) }};
+            console.log(brokenLinks);
+            return await linkCheckerResults(brokenLinks);
